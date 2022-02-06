@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react"
+import { CustomForm } from "./components/CustomForm"
+import { ItemsContainer } from "./components/ItemsContainer"
+import "./App.css"
 
-function App() {
+const App = () => {
+  const [list, setList] = useState([])
+
+  const handleForm = (item) => {
+    setList([...list, { value: item, complete: false }])
+  }
+
+  const handleRemove = (index) => {
+    let temp = [...list]
+    temp.splice(index, 1)
+    setList(temp)
+  }
+
+  const handleComplete = (index) => {
+    let temp = [...list]
+    // do any mutations...
+    temp[index].complete = !temp[index].complete
+    // set temp back to state
+    setList(temp)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>To do list</h1>
+      <CustomForm handleForm={handleForm} />
+      <ItemsContainer list={list} handleRemove={handleRemove} handleComplete={handleComplete} />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
